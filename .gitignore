@@ -1,2 +1,5 @@
 *.pyc
+*.log
+*.out
 data/
+__pycache__/

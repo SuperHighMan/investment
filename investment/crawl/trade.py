@@ -122,3 +122,23 @@ def get_china_etfn_fund(type='etf'):
     dataArr = dataArr.set_index(u'基金代码')
     date = '%s-%s-%s' % (ct.NOW_YEAR, ct.NOW_MONTH, ct.NOW_DAY)
     return date, dataArr
+
+def get_market_index(code, type='china', pause=0.02):
+    """
+    获取市场指数数据，如沪深300，中证500
+    :param type: string 默认'china'
+    :param pause: float 默认0.02秒
+    :return: string,csv
+             日期，文件
+    """
+    symbol = '0%s'%code if code[0] in ['0'] else '1%s'%code
+    url = ct.MARKET_INDEX_URL%(ct.P_TYPE['http'], ct.DOMAINS['money_163'], symbol, '20010104','20180413')
+    print(url)
+    response = requests.get(url)
+    with open(ct.LOCAL_DATA_MARKET_INDEX%('china',code), 'wb') as csv:
+        csv.write(response.content)
+    df = pd.read_csv(url, encoding='gbk')
+    df = df.sort_values(by=u'日期', ascending=True)
+    df = df.set_index(u'日期')
+    df.to_csv(ct.LOCAL_DATA_MARKET_INDEX%('china',code))
+    return

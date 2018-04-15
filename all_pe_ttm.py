@@ -10,6 +10,9 @@ import pandas as pd
 
 STOCK_LIST = '/home/chenhui/investment/data/my_stock/stock_china.xlsx'
 
+#市场指数列表，包括沪深300，中证500等
+MARKET_INDEX_LIST = '/home/chenhui/investment/data/fund/StandarIndexCode.xlsx'
+
 
 
 def get_all_pb():
@@ -34,5 +37,14 @@ def get_all_pe():
     print('我的股票池计算完毕')
 
 
+def get_all_market_index():
+    """
+    获取市场上所有的指数数据
+    :return:
+    """
+    sheet = pd.read_excel(MARKET_INDEX_LIST, converters={'StandarIndexCode':str})
+    investment.save_market_index_his(sheet['StandarIndexCode'])
+
 if __name__ == '__main__':
-    get_all_pe()
+    get_all_market_index()
+    print(u'指数数据获取完毕')

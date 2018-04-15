@@ -69,3 +69,16 @@ def save_today_hongkong_stock():
     date,df = investment.get_hongkong_stock_today(step=80, pause=0.1)
     df.to_excel(ct.LOCAL_DATA_TODAY_MARKET%(ct.AREA_CODE['HONGKONG'], ct.INVEST_CODE['STOCK'], date))
     print(u'当天港股市场数据获取完毕...数据已保存')
+
+def save_market_index_his(stockList):
+    """
+    持久化市场指数数据,如沪深300，中证500
+    :param stockList:list
+    :return:
+    """
+    for stockId in stockList:
+        try:
+            investment.get_market_index(stockId)
+            print(u'指数%s数据获取完毕...数据已保存'%stockId)
+        except Exception as e:
+            print(u'指数%s数据获取失败'%stockId)

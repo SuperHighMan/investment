@@ -21,11 +21,12 @@ LOCAL_DATA_TODAY_MARKET = '/home/chenhui/investment/data/today/%s-%s-%s.xlsx'
 
 LOCAL_DATA_INDEX_FUND = '/home/chenhui/investment/data/fund/index/%s-%s-%s-%s.xlsx'
 LOCAL_DATA_ETF_FUND = '/home/chenhui/investment/data/fund/etf/%s-%s-%s-%s.xlsx'
+LOCAL_DATA_MARKET_INDEX = '/home/chenhui/investment/data/market-index/%s-%s.csv'
 
 K_TYPE = {'D': 'akdaily', 'W': 'akweekly', 'M':'akmonthly'}
 P_TYPE = {'http': 'http://', 'ftp': 'ftp://'}
 DOMAINS = {'fianace_sina': 'money.finance.sina.com.cn', 'ifeng': 'ifeng.com',
-           'fund_eastmoney': 'fund.eastmoney.com'}
+           'fund_eastmoney': 'fund.eastmoney.com', 'money_163': 'quotes.money.163.com'}
 INVEST_CODE = {'STOCK': 'stock', 'FUND': 'fund'}
 AREA_CODE = {'CHINA':'china', 'HONGKONG':'hongkong'}
 FINICIAL_VIRABLES = {'date': 0, 'eps': 4, 'bv': 7}
@@ -49,6 +50,7 @@ STOCK_CHINA_LATEST_URL = '%s%s/d/api/openapi_proxy.php/?__s=[[\"hq\",\"hs_a\",\"
 STOCK_HONGKONG_LATEST_URL = '%s%s/d/api/openapi_proxy.php/?__s=[[\"hk\",\"qbgg_hk\",\"\",0,%d,%d]]'
 INDEX_FUND_CHINA_URL = '%s%s/data/FundChannelData_BaseInfoHandler.ashx?r=%d&m=%s&pageIndex=%d&sName=isbuy&s=desc&t=all'
 ETF_FUND_CHINA_URL ='%s%s/ETFN_jzzzl.html'
+MARKET_INDEX_URL = '%s%s/service/chddata.html?code=%s&start=%s&end=%s&fields=TCLOSE;HIGH;LOW;TOPEN;LCLOSE;CHG;PCHG;VOTURNOVER;VATURNOVER'
 
 def _code_to_symbol(code):
     """
