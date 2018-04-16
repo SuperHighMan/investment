@@ -147,7 +147,7 @@ def _get_stock_hist_eps(stockId, date):
             day = '31'
         else:
             month = str(int(month) - 3).zfill(2)
-        print('最新季报未更新')
+        #print('最新季报未更新')
         return _get_stock_hist_eps(stockId, '%s-%s-%s'%(year, month, day))
 
 def _get_stock_hist_pb(stockId, date):
@@ -193,7 +193,7 @@ def _get_stock_hist_pb(stockId, date):
             day = '31'
         else:
             month = str(int(month) - 3).zfill(2)
-        print('最新季报未更新')
+        #print('最新季报未更新')
         return _get_stock_hist_pb(stockId, '%s-%s-%s'%(year, month, day))
 
 def analyze_stock_pb(stockId, ktype='W',start='2008-01-01',end=None):

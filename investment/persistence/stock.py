@@ -7,6 +7,7 @@
 
 import investment
 import investment.util.cons as ct
+import os
 
 def save_stock_pe_ttm(stockList, ktype='W', start='2008-01-01', end=None):
     """
@@ -24,11 +25,15 @@ def save_stock_pe_ttm(stockList, ktype='W', start='2008-01-01', end=None):
     """
     for stockId in stockList:
         try:
-            df = investment.analyze_stock_ttm(stockId, ktype, start, end)
-            df.to_excel(ct.LOCAL_DATA_PE_TTM%stockId)
-            print(u'计算股票%s滚动市盈率完毕...数据已经保存'%stockId)
+            if os.path.exists(ct.LOCAL_DATA_PE_TTM%stockId):
+                print(u'股票%s滚动市盈率已存在'%stockId)
+            else:
+                df = investment.analyze_stock_ttm(stockId, ktype, start, end)
+                df.to_excel(ct.LOCAL_DATA_PE_TTM%stockId)
+                print(u'计算股票%s滚动市盈率完毕...数据已经保存'%stockId)
         except Exception as e:
             print(u'股票%s滚动市盈率计算出错'%stockId)
+    return
 
 def save_stock_pb(stockList, ktype='W', start='2008-01-01', end=None):
     """
@@ -46,9 +51,12 @@ def save_stock_pb(stockList, ktype='W', start='2008-01-01', end=None):
     """
     for stockId in stockList:
         try:
-            df = investment.analyze_stock_pb(stockId, ktype, start, end)
-            df.to_excel(ct.LOCAL_DATA_PB%stockId)
-            print(u'计算股票%s历史市净率完毕...数据已经保存' % stockId)
+            if os.path.exists(ct.LOCAL_DATA_PB%stockId):
+                print(u'股票%s历史市净率已存在'%stockId)
+            else:
+                df = investment.analyze_stock_pb(stockId, ktype, start, end)
+                df.to_excel(ct.LOCAL_DATA_PB%stockId)
+                print(u'计算股票%s历史市净率完毕...数据已经保存' % stockId)
         except Exception as e:
             print(u'股票%s市净率计算出错' % stockId)
 

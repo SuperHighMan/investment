@@ -8,7 +8,7 @@
 import investment
 import pandas as pd
 
-STOCK_LIST = '/home/chenhui/investment/data/my_stock/stock_china.xlsx'
+STOCK_LIST = '/home/chenhui/investment/data/my_stock/all_china_stock.xlsx'
 
 #市场指数列表，包括沪深300，中证500等
 MARKET_INDEX_LIST = '/home/chenhui/investment/data/fund/StandarIndexCode.xlsx'
@@ -25,16 +25,16 @@ def get_all_pb():
 
     investment.save_stock_pb(sheet[u'代码'], ktype='W', start='2008-01-01', end=None)
 
-    print('我的股票池计算完毕')
+    print(u'我的股票池计算完毕')
 
 def get_all_pe():
     """
     计算所有股票的滚动市盈率
     :return:
     """
-    sheet = pd.read_excel(STOCK_LIST, converters={u'代码':str})
-    investment.save_stock_pe_ttm(sheet[u'代码'], ktype='W', start='2008-01-01', end=None)
-    print('我的股票池计算完毕')
+    sheet = pd.read_excel(STOCK_LIST, converters={u'code':str})
+    investment.save_stock_pe_ttm(sheet[u'code'], ktype='W', start='2008-01-01', end=None)
+    print(u'我的股票池计算完毕')
 
 
 def get_all_market_index():
@@ -46,5 +46,7 @@ def get_all_market_index():
     investment.save_market_index_his(sheet['StandarIndexCode'])
 
 if __name__ == '__main__':
-    get_all_market_index()
-    print(u'指数数据获取完毕')
+    #get_all_pe()
+    df = investment.analyze_stock_ttm('600016')
+    print(df)
+    print(u'十年全市场滚动市盈率计算完毕')

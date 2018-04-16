@@ -2,4 +2,8 @@
 *.log
 *.out
 data/
+logs/
 __pycache__/
+build/
+dist/
+investment.egg-info/

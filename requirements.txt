@@ -1,0 +1,6 @@
+pandas>=0.20.3
+requests>=2.18.4
+lxml>=3.8.0
+matplotlib>=2.1.0
+openpyxl>=2.5.1
+xlrd>=1.1.0

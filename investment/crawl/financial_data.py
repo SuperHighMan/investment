@@ -14,7 +14,7 @@ import json
 from investment.util import cons as ct
 
 
-def _get_stock_fianacial_data(stockId, year, dataArr, retry_count=3, pause=2):
+def _get_stock_fianacial_data(stockId, year, dataArr, retry_count=3, pause=0.02):
     """
     获取某支股票某一年的财务指标
     :param stockId: string
@@ -67,7 +67,7 @@ def get_stock_fianacial_data_all_year(stockId, dataArr):
     return dataArr
 
 
-def get_hist_data(code=None, ktype='W',start=None, end=None, retry_count=3, pause=2):
+def get_hist_data(code=None, ktype='W',start=None, end=None, retry_count=3, pause=0.02):
     """
     获取某只股票的历史记录
     :param code:string
@@ -104,4 +104,3 @@ def get_hist_data(code=None, ktype='W',start=None, end=None, retry_count=3, paus
         except Exception as e:
             print('获取股票数据失败')
             pass
-
