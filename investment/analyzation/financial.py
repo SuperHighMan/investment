@@ -8,6 +8,7 @@
 import os
 import pandas as pd
 import investment.util.cons as ct
+import investment.util.storage as st
 import investment
 
 def analyze_stock_ttm(stockId, ktype='W',start='2008-01-01',end=None):
@@ -21,7 +22,7 @@ def analyze_stock_ttm(stockId, ktype='W',start='2008-01-01',end=None):
     :return:DataFrame
                 属性：日期，pe_ttm，收市价格
     """
-    data_path = ct.LOCAL_DATA_DAY_PRICE%stockId
+    data_path = st.LOCAL_DATA_DAY_PRICE%stockId
     df = None
     if os.path.exists(data_path):
         df = pd.read_excel(data_path)
@@ -46,7 +47,7 @@ def get_today_stock_ttm(stockId, date, per=30):
                     回测数据
     """
     dict = {}
-    df = pd.read_excel(ct.LOCAL_DATA_TODAY_MARKET%('china', 'stock', date),
+    df = pd.read_excel(st.LOCAL_DATA_TODAY_MARKET%('china', 'stock', date),
                        converters={u'code':str, u'trade':float})
     df = df.set_index('code')
     eps = _get_stock_hist_eps(stockId, date)
@@ -90,7 +91,7 @@ def _get_stock_hist_eps(stockId, date):
     :return:float
                    返回TTM
     """
-    data_path = ct.LOCAL_DATA_FINANCIAL%stockId
+    data_path = st.LOCAL_DATA_FINANCIAL%stockId
     df = None
     eps = None
     # read data from local
@@ -160,7 +161,7 @@ def _get_stock_hist_pb(stockId, date):
     :return:float
             每股净资产
     """
-    data_path = ct.LOCAL_DATA_FINANCIAL % stockId
+    data_path = st.LOCAL_DATA_FINANCIAL % stockId
     df = None
     # read data from local
     if os.path.exists(data_path):
@@ -207,7 +208,7 @@ def analyze_stock_pb(stockId, ktype='W',start='2008-01-01',end=None):
     :return:DataFrame
             属性，pb_ttm，收市价格
     """
-    data_path = ct.LOCAL_DATA_DAY_PRICE % stockId
+    data_path = st.LOCAL_DATA_DAY_PRICE % stockId
     df = None
     if os.path.exists(data_path):
         df = pd.read_excel(data_path)
@@ -230,7 +231,7 @@ def load_pe_ttm_from_excel(stockId, start='2008-01-01', end=None):
     :return:       DataFrame
                    属性:date, pe_ttm, close
     """
-    data_path = ct.LOCAL_DATA_PE_TTM%stockId
+    data_path = st.LOCAL_DATA_PE_TTM%stockId
     if os.path.exists(data_path):
         df = pd.read_excel(data_path, converters={'pe_ttm':float,'close':float})
         if start is not None:

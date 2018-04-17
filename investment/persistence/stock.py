@@ -7,6 +7,7 @@
 
 import investment
 import investment.util.cons as ct
+import investment.util.storage as st
 import os
 
 def save_stock_pe_ttm(stockList, ktype='W', start='2008-01-01', end=None):
@@ -25,11 +26,11 @@ def save_stock_pe_ttm(stockList, ktype='W', start='2008-01-01', end=None):
     """
     for stockId in stockList:
         try:
-            if os.path.exists(ct.LOCAL_DATA_PE_TTM%stockId):
+            if os.path.exists(st.LOCAL_DATA_PE_TTM%stockId):
                 print(u'股票%s滚动市盈率已存在'%stockId)
             else:
                 df = investment.analyze_stock_ttm(stockId, ktype, start, end)
-                df.to_excel(ct.LOCAL_DATA_PE_TTM%stockId)
+                df.to_excel(st.LOCAL_DATA_PE_TTM%stockId)
                 print(u'计算股票%s滚动市盈率完毕...数据已经保存'%stockId)
         except Exception as e:
             print(u'股票%s滚动市盈率计算出错'%stockId)
@@ -51,11 +52,11 @@ def save_stock_pb(stockList, ktype='W', start='2008-01-01', end=None):
     """
     for stockId in stockList:
         try:
-            if os.path.exists(ct.LOCAL_DATA_PB%stockId):
+            if os.path.exists(st.LOCAL_DATA_PB%stockId):
                 print(u'股票%s历史市净率已存在'%stockId)
             else:
                 df = investment.analyze_stock_pb(stockId, ktype, start, end)
-                df.to_excel(ct.LOCAL_DATA_PB%stockId)
+                df.to_excel(st.LOCAL_DATA_PB%stockId)
                 print(u'计算股票%s历史市净率完毕...数据已经保存' % stockId)
         except Exception as e:
             print(u'股票%s市净率计算出错' % stockId)
@@ -66,7 +67,7 @@ def save_today_china_stock():
     :return:
     """
     date,df = investment.get_china_stock_today(step=80, pause=0.1)
-    df.to_excel(ct.LOCAL_DATA_TODAY_MARKET%(ct.AREA_CODE['CHINA'],ct.INVEST_CODE['STOCK'], date))
+    df.to_excel(st.LOCAL_DATA_TODAY_MARKET%(ct.AREA_CODE['CHINA'],ct.INVEST_CODE['STOCK'], date))
     print(u'当天A股市场数据获取完毕...数据已保存')
 
 def save_today_hongkong_stock():
@@ -75,7 +76,7 @@ def save_today_hongkong_stock():
     :return:
     """
     date,df = investment.get_hongkong_stock_today(step=80, pause=0.1)
-    df.to_excel(ct.LOCAL_DATA_TODAY_MARKET%(ct.AREA_CODE['HONGKONG'], ct.INVEST_CODE['STOCK'], date))
+    df.to_excel(st.LOCAL_DATA_TODAY_MARKET%(ct.AREA_CODE['HONGKONG'], ct.INVEST_CODE['STOCK'], date))
     print(u'当天港股市场数据获取完毕...数据已保存')
 
 def save_market_index_his(stockList):

@@ -6,22 +6,11 @@
 # @Desc  :
 
 import datetime
-import investment
-import pandas as pd
+import investment.util.storage as st
 
 NOW_YEAR = datetime.datetime.now().year
 NOW_MONTH = datetime.datetime.now().month
 NOW_DAY = datetime.datetime.now().day
-
-LOCAL_DATA_FINANCIAL = '/home/chenhui/investment/data/my_stock/%s.xlsx'
-LOCAL_DATA_DAY_PRICE = '/home/chenhui/investment/data/my_stock_day_price/%s.xlsx'
-LOCAL_DATA_PE_TTM = '/home/chenhui/investment/data/stock_pe_ttm/%s-pe_ttm.xlsx'
-LOCAL_DATA_PB = '/home/chenhui/investment/data/stock_pb/%s-pb.xlsx'
-LOCAL_DATA_TODAY_MARKET = '/home/chenhui/investment/data/today/%s-%s-%s.xlsx'
-
-LOCAL_DATA_INDEX_FUND = '/home/chenhui/investment/data/fund/index/%s-%s-%s-%s.xlsx'
-LOCAL_DATA_ETF_FUND = '/home/chenhui/investment/data/fund/etf/%s-%s-%s-%s.xlsx'
-LOCAL_DATA_MARKET_INDEX = '/home/chenhui/investment/data/market-index/%s-%s.csv'
 
 K_TYPE = {'D': 'akdaily', 'W': 'akweekly', 'M':'akmonthly'}
 P_TYPE = {'http': 'http://', 'ftp': 'ftp://'}
@@ -74,5 +63,5 @@ def _save_data(stockId, df):
     :return:None
     """
     #df = investment.get_stock_fianacial_data_all_year(stockId, pd.DataFrame())
-    df.to_excel(LOCAL_DATA_FINANCIAL%stockId)
+    df.to_excel(st.LOCAL_DATA_FINANCIAL%stockId)
     print('股票%s财务指标爬取完毕'%stockId)

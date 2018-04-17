@@ -102,5 +102,5 @@ def get_hist_data(code=None, ktype='W',start=None, end=None, retry_count=3, paus
             else:
                 return None
         except Exception as e:
-            print('获取股票数据失败')
+            print(u'从凤凰网获取股票%s历史记录失败'%code)
             pass

@@ -13,8 +13,6 @@ STOCK_LIST = '/home/chenhui/investment/data/my_stock/all_china_stock.xlsx'
 #市场指数列表，包括沪深300，中证500等
 MARKET_INDEX_LIST = '/home/chenhui/investment/data/fund/StandarIndexCode.xlsx'
 
-
-
 def get_all_pb():
     """
     计算所有股票的历史市净率
@@ -46,7 +44,7 @@ def get_all_market_index():
     investment.save_market_index_his(sheet['StandarIndexCode'])
 
 if __name__ == '__main__':
-    #get_all_pe()
-    df = investment.analyze_stock_ttm('600016')
-    print(df)
+    get_all_pe()
+    #df = investment.analyze_stock_ttm('600016')
+    #print(df)
     print(u'十年全市场滚动市盈率计算完毕')
