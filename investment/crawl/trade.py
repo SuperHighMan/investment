@@ -143,3 +143,40 @@ def get_market_index(code, type='china', pause=0.02):
     df = df.set_index(u'日期')
     df.to_csv(st.LOCAL_DATA_MARKET_INDEX%('china',code))
     return
+
+def get_market_index_from_jiucaishuo(code, type='china', pause=0.02):
+    """
+    获取韭菜说的网站指数数据
+    :param code:
+    :param type:
+    :param pause:
+    :return:
+    """
+    url = 'http://www.jiucaishuo.com/invest/'
+    response = requests.get(url)
+    response.encoding ='utf-8'
+    doc = lxml.html.document_fromstring(response.text)
+    tables = doc.xpath("//table[@class='table table-bordered table-condensed']")
+    sarr = [etree.tostring(node).decode('utf-8') for node in tables]
+    sarr = ''.join(sarr)
+    sarr = '<table>%s</table>' % sarr
+    dataArr = pd.read_html(sarr)[0]
+    dataArr.to_excel(st.LOCAL_DATA_JIUCAI_INDEX)
+    for code in dataArr[u'指数代码']:
+        for _type in range(2):
+            time.sleep(pause)
+            url = 'http://www.jiucaishuo.com/?/invest/search/'
+            data = {'gu_pe_category':_type, 'gu_code':code}
+            response = requests.post(url,data)
+            r = response.json()['message']
+            data = []
+            for i in range(len(r)):
+                element = []
+                element.append(r[i]['gu_date'])
+                element.append(r[i]['gu_pe'])
+                data.append(element)
+            all = {'columns':['gu_date',ct.JIUCAI_CONS[_type]],'data': data}
+            df = pd.read_json(json.dumps(all), orient='split')
+            df.to_excel(st.LOCAL_DATA_JIUCAI_PE%(code,ct.JIUCAI_CONS[_type]))
+    print(u'爬取韭菜说网站数据完毕...数据已保存')
+    return

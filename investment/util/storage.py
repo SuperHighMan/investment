@@ -7,7 +7,7 @@
 
 import os
 
-HOME_DIR = '~'
+HOME_DIR = '/home/chenhui'
 BASE_DIR = 'investment/data'
 
 LOCAL_DATA_FINANCIAL = os.path.join(HOME_DIR, BASE_DIR,'my_stock/%s.xlsx')
@@ -19,3 +19,7 @@ LOCAL_DATA_TODAY_MARKET = os.path.join(HOME_DIR,BASE_DIR,'today/%s-%s-%s.xlsx')
 LOCAL_DATA_INDEX_FUND = os.path.join(HOME_DIR,BASE_DIR,'fund/index/%s-%s-%s-%s.xlsx')
 LOCAL_DATA_ETF_FUND = os.path.join(HOME_DIR,BASE_DIR,'fund/etf/%s-%s-%s-%s.xlsx')
 LOCAL_DATA_MARKET_INDEX = os.path.join(HOME_DIR,BASE_DIR,'market-index/%s-%s.csv')
+
+LOCAL_DATA_JIUCAI_INDEX = os.path.join(HOME_DIR,BASE_DIR,'jiucai/all.xlsx')
+LOCAL_DATA_JIUCAI_PE = os.path.join(HOME_DIR,BASE_DIR,'jiucai/pe/%s-%s.xlsx')
+LOCAL_DATA_JIUCAI_PB = os.path.join(HOME_DIR,BASE_DIR,'jiucai/pb/%s-%s.xlsx')

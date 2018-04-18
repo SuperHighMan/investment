@@ -33,6 +33,8 @@ DAY_TRADE_HONGKONG_COLUMNS = ["symbol","name","engname","tradetype","lasttrade",
 DAY_EFT_FUND_COLUMNS = ['基金代码', '基金简称', '单位净值', '累计净值', '昨日单位净值', '昨日累计净值',
                        '增长值', '增长率', '市价', '折价率']
 
+JIUCAI_CONS = ['gu_pe', 'gu_pb']
+
 FINICIAL_URL = '%s%s/corp/go.php/vFD_FinancialGuideLine/stockid/%s/ctrl/%s/displaytype/4.phtml'
 DAY_PRICE_URL = '%sapi.finance.%s/%s/?code=%s&type=last'
 STOCK_CHINA_LATEST_URL = '%s%s/d/api/openapi_proxy.php/?__s=[[\"hq\",\"hs_a\",\"\",0,%d,%d]]'
