@@ -1,7 +1,9 @@
 *.pyc
 *.log
 *.out
+*.jpg
 data/
+pic/
 logs/
 __pycache__/
 build/
