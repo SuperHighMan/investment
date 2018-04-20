@@ -44,9 +44,97 @@ def draw_stock_pe_ttm(stockId, start='1990-01-01', end=None):
     ax2.xaxis.grid(True, which='minor', color='gray', linestyle='dashed')
     ax2.legend(['close'], loc='upper right')
     plt.title('%s TTM'%stockId)
-    plt.show()
+    plt.savefig(st.PIC_STOCK%(stockId, 'pe-ttm'), dpi=200)
+    #plt.show()
     #else:
-        #print(u'对不起,没有股票%s的历史数据'%stockId)
+        #print(u'对不起,本地没有股票%s的历史市盈率数据'%stockId)
+
+def draw_stock_pb(stockId, start='1990-01-01', end=None):
+    """
+    绘制滚动市净率曲线
+    :param stockId: string e.g. 600900
+    :param start: 默认'1900-01-01'
+    :param end: 默认None
+    :return:
+    """
+    data_path = st.LOCAL_DATA_PB%stockId
+    if os.path.exists(data_path):
+        df = pd.read_excel(data_path, converters={'pb':float, 'close':float})
+        if start is not None:
+            df = df[df.date >= start]
+        if end is not None:
+            df = df[df.date <= end]
+        df['date'] = pd.to_datetime(df['date'])
+        # 市盈率 左边的y轴
+        fig = plt.figure()
+        ax1 = fig.add_subplot(111)
+        ax1.plot(df.date, df.pb)
+        ax1.yaxis.set_major_locator(MultipleLocator(0.5))
+        ax1.yaxis.set_minor_locator(MultipleLocator(0.1))
+        ax1.yaxis.grid(True, which='major', color='red', linestyle='solid')
+        ax1.yaxis.grid(True, which='minor', color='gray', linestyle='dashed')
+        ax1.legend(['pb'], loc='upper left')
+        # 股价 右边的y轴
+        ax2 = ax1.twinx()
+        ax2.plot(df.date, df.close, 'r', color='g')
+        ax2.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
+        ax2.xaxis.set_major_locator(mdates.YearLocator())
+        ax2.xaxis.set_minor_locator(mdates.MonthLocator())
+        ax2.xaxis.grid(True, which='minor', color='gray', linestyle='dashed')
+        ax2.legend(['close'], loc='upper right')
+        plt.title('%s PB' % stockId)
+        plt.savefig(st.PIC_STOCK % (stockId, 'pb'), dpi=200)
+        #plt.show()
+    else:
+        print(u'对不起，本地没有股票%s的历史市净率数据'%stockId)
+
+def draw_stock_pe_pb(stockId, start='1990-01-01', end=None):
+    """
+    绘制股票的市净率与市盈率的图片
+    :param stockId: string e.g. 600900
+    :param start:默认'1900-01-01'
+    :param end:默认None
+    :return:
+    """
+    pe_data = st.LOCAL_DATA_PE_TTM%stockId
+    pb_data = st.LOCAL_DATA_PB%stockId
+    if os.path.exists(pe_data) & os.path.exists(pb_data):
+        df_pe = pd.read_excel(pe_data, converters={'pe_ttm':float, 'close':float})
+        if start is not None:
+            df_pe = df_pe[df_pe.date >= start]
+        if end is not None:
+            df_pe = df_pe[df_pe <= end]
+        df_pe['date'] = pd.to_datetime(df_pe['date'])
+
+        fig = plt.figure()
+        ax_pe = fig.add_subplot(111)
+        ax_pe.plot(df_pe.date, df_pe.pe_ttm)
+        ax_pe.axhline(investment.suggest_stock_ttm(stockId, percentage=30), color='cyan', linewidth=2)
+        ax_pe.axhline(investment.suggest_stock_ttm(stockId, percentage=50), color='chocolate', linewidth=2)
+        ax_pe.axhline(investment.suggest_stock_ttm(stockId, percentage=80), color='firebrick', linewidth=2)
+        ax_pe.yaxis.set_major_locator(MultipleLocator(1.0))
+        ax_pe.yaxis.set_minor_locator(MultipleLocator(0.2))
+        ax_pe.yaxis.grid(True, which='major', color='gray', linestyle='solid')
+        ax_pe.yaxis.grid(True, which='minor', color='gray', linestyle='dashed')
+        ax_pe.legend(['pe_ttm'], loc='upper left')
+        df_pb = pd.read_excel(pb_data, converters={'pb':float, 'close':float})
+        if start is not None:
+            df_pb = df_pb[df_pb.date >= start]
+        if end is not None:
+            df_pb = df_pb[df_pb <= end]
+        df_pb['date'] = pd.to_datetime(df_pb['date'])
+        ax_pb = ax_pe.twinx()
+        ax_pb.plot(df_pb.date, df_pb.pb, 'r', color='g')
+        ax_pb.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        ax_pb.xaxis.set_major_locator(mdates.YearLocator())
+        ax_pb.xaxis.set_minor_locator(mdates.MonthLocator())
+        ax_pb.xaxis.grid(True, which='minor', color='gray', linestyle='dashed')
+        ax_pb.legend(['pb'], loc='upper right')
+        plt.gcf().autofmt_xdate()
+        plt.title('%s'%stockId)
+        plt.show()
+    else:
+        print(u'对不起，本地股票%s的历史数据不存在'%stockId)
 
 def draw_market_index_pe(code, start='1990-01-01', end='2018-04-19'):
     """

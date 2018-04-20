@@ -29,7 +29,8 @@ from investment.analyzation.financial import (_get_stock_hist_eps, analyze_stock
 数据可视化模块
 """
 from investment.analyzation.visualization import (draw_stock_pe_ttm, draw_market_index_pe,
-                                                  draw_market_index_pb)
+                                                  draw_market_index_pb, draw_stock_pb,
+                                                  draw_stock_pe_pb)
 
 """
 数据持久化模块

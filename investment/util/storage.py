@@ -30,3 +30,5 @@ LOCAL_DATA_JIUCAI_PB = os.path.join(HOME_DIR,BASE_DIR,'jiucai/pb/%s-%s.xlsx')
 #主流指数数据图片路径
 PIC_INDEX_PE = os.path.join(HOME_DIR, PIC_DIR, 'index/%s-%s.jpg')
 PIC_INDEX_PB = os.path.join(HOME_DIR, PIC_DIR, 'index/%s-%s.jpg')
+#股票数据图片路径
+PIC_STOCK = os.path.join(HOME_DIR, PIC_DIR, 'stock/%s-%s.jpg')
