@@ -109,9 +109,9 @@ def draw_stock_pe_pb(stockId, start='1990-01-01', end=None):
         fig = plt.figure()
         ax_pe = fig.add_subplot(111)
         ax_pe.plot(df_pe.date, df_pe.pe_ttm)
-        ax_pe.axhline(investment.suggest_stock_ttm(stockId, percentage=30), color='cyan', linewidth=2)
-        ax_pe.axhline(investment.suggest_stock_ttm(stockId, percentage=50), color='chocolate', linewidth=2)
-        ax_pe.axhline(investment.suggest_stock_ttm(stockId, percentage=80), color='firebrick', linewidth=2)
+        ax_pe.axhline(investment.suggest_stock_ttm(stockId, percentage=20), color='cyan', linewidth=2)
+        ax_pe.axhline(investment.suggest_stock_ttm(stockId, percentage=40), color='chocolate', linewidth=2)
+        ax_pe.axhline(investment.suggest_stock_ttm(stockId, percentage=70), color='firebrick', linewidth=2)
         ax_pe.yaxis.set_major_locator(MultipleLocator(1.0))
         ax_pe.yaxis.set_minor_locator(MultipleLocator(0.2))
         ax_pe.yaxis.grid(True, which='major', color='gray', linestyle='solid')
@@ -132,7 +132,8 @@ def draw_stock_pe_pb(stockId, start='1990-01-01', end=None):
         ax_pb.legend(['pb'], loc='upper right')
         plt.gcf().autofmt_xdate()
         plt.title('%s'%stockId)
-        plt.show()
+        plt.savefig(st.PIC_STOCK % (stockId, 'pe-pb'), dpi=600)
+        #plt.show()
     else:
         print(u'对不起，本地股票%s的历史数据不存在'%stockId)
 
