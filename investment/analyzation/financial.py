@@ -242,3 +242,25 @@ def load_pe_ttm_from_excel(stockId, start='2008-01-01', end=None):
         return df
     else:
         return None
+
+def load_stock_financial(stockId, start='2008-01-01', end=None):
+    """
+    从本地表格加载股票财报
+    :param stockId: string
+    :param start: string
+    :param end: string
+    :return: DataFrame
+    """
+    data_path = st.LOCAL_DATA_FINANCIAL%stockId
+    if os.path.exists(data_path):
+        df = pd.read_excel(data_path)
+        df.drop([0], axis=1, inplace=True)
+        df = df.T.set_index(0)
+        df = df.sort_index(axis=0, ascending=True)
+        if start is not None:
+            df = df[df.index >= start]
+        if end is not None:
+            df = df[df.index <= end]
+        return df
+    else:
+        return None

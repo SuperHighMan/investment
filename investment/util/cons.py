@@ -11,6 +11,11 @@ import investment.util.storage as st
 NOW_YEAR = datetime.datetime.now().year
 NOW_MONTH = datetime.datetime.now().month
 NOW_DAY = datetime.datetime.now().day
+AUTHOR = 'SuperHighMan'
+Q1 = '%d-03-31'
+Q2 = '%d-06-30'
+Q3 = '%d-09-30'
+Q4 = '%d-12-31'
 
 K_TYPE = {'D': 'akdaily', 'W': 'akweekly', 'M':'akmonthly'}
 P_TYPE = {'http': 'http://', 'ftp': 'ftp://'}
@@ -34,6 +39,8 @@ DAY_EFT_FUND_COLUMNS = ['基金代码', '基金简称', '单位净值', '累计�
                        '增长值', '增长率', '市价', '折价率']
 
 JIUCAI_CONS = ['gu_pe', 'gu_pb']
+
+FINANCIAL_TABLE = {'growth':'table-growth'}
 
 FINICIAL_URL = '%s%s/corp/go.php/vFD_FinancialGuideLine/stockid/%s/ctrl/%s/displaytype/4.phtml'
 DAY_PRICE_URL = '%sapi.finance.%s/%s/?code=%s&type=last'

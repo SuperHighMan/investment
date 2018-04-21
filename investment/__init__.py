@@ -23,7 +23,8 @@ from investment.crawl.trade import (get_china_stock_today, get_hongkong_stock_to
 from investment.analyzation.financial import (_get_stock_hist_eps, analyze_stock_ttm,
                                               load_pe_ttm_from_excel, get_today_stock_ttm,
                                               suggest_stock_ttm, _get_stock_hist_pb,
-                                              analyze_stock_pb)
+                                              analyze_stock_pb, load_stock_financial)
+from investment.analyzation.fundamentals import (GrowthTable)
 
 """
 数据可视化模块
