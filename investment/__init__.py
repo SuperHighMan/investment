@@ -24,7 +24,8 @@ from investment.analyzation.financial import (_get_stock_hist_eps, analyze_stock
                                               load_pe_ttm_from_excel, get_today_stock_ttm,
                                               suggest_stock_ttm, _get_stock_hist_pb,
                                               analyze_stock_pb, load_stock_financial)
-from investment.analyzation.fundamentals import (GrowthTable)
+from investment.analyzation.fundamentals import (GrowthTable, ProfitabilityTable,
+                                                 ManagementTable)
 
 """
 数据可视化模块
