@@ -12,6 +12,8 @@ BASE_DIR = 'investment/data'
 PIC_DIR = 'investment/pic'
 #股票财务指标数据
 LOCAL_DATA_FINANCIAL = os.path.join(HOME_DIR, BASE_DIR,'my_stock/%s.xlsx')
+#股票会计表数据
+LOCAL_DATA_ACCOUNTANT = os.path.join(HOME_DIR, BASE_DIR, 'table/%s/%s-%s.csv')
 #股票历史交易数据
 LOCAL_DATA_DAY_PRICE = os.path.join(HOME_DIR,BASE_DIR,'my_stock_day_price/%s.xlsx')
 #股票pe、pb数据

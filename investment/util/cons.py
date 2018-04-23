@@ -50,6 +50,7 @@ STOCK_HONGKONG_LATEST_URL = '%s%s/d/api/openapi_proxy.php/?__s=[[\"hk\",\"qbgg_h
 INDEX_FUND_CHINA_URL = '%s%s/data/FundChannelData_BaseInfoHandler.ashx?r=%d&m=%s&pageIndex=%d&sName=isbuy&s=desc&t=all'
 ETF_FUND_CHINA_URL ='%s%s/ETFN_jzzzl.html'
 MARKET_INDEX_URL = '%s%s/service/chddata.html?code=%s&start=%s&end=%s&fields=TCLOSE;HIGH;LOW;TOPEN;LCLOSE;CHG;PCHG;VOTURNOVER;VATURNOVER'
+ACCOUNTANT_TABLE_URL = '%s%s/service/%s_%s.html'
 
 def _code_to_symbol(code):
     """

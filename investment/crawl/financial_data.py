@@ -12,6 +12,7 @@ import pandas as pd
 import time
 import json
 from investment.util import cons as ct
+import investment.util.storage as st
 
 
 def _get_stock_fianacial_data(stockId, year, dataArr, retry_count=3, pause=0.02):
@@ -104,3 +105,23 @@ def get_hist_data(code=None, ktype='W',start=None, end=None, retry_count=3, paus
         except Exception as e:
             print(u'从凤凰网获取股票%s历史记录失败'%code)
             pass
+
+def get_accountant_table_data(stockId, type, retry_count=3, pause=0.02):
+    """
+    爬取会计表数据（资产负债表、利润表、现金流量表）
+    :param stockId:string e.g. 600900
+    :param type:string 'zcfzb','lrb','xjllb'
+    :param retry_count:int
+    :param pause:float
+    :return:
+    """
+    url = ct.ACCOUNTANT_TABLE_URL%(ct.P_TYPE['http'], ct.DOMAINS['money_163'], type, stockId)
+    for _ in range(retry_count):
+        time.sleep(pause)
+        #try:
+        response = requests.get(url)
+        with open(st.LOCAL_DATA_ACCOUNTANT%(type, type, stockId), 'wb') as csv:
+                csv.write(response.content)
+        return
+        #except Exception as e:
+            #print(u'从网易财经获取股票%s会计报表失败'%stockId)

@@ -12,7 +12,8 @@ __author__ = 'Baby Chan'
 """
 数据爬取模块
 """
-from investment.crawl.financial_data import (get_stock_fianacial_data_all_year, get_hist_data)
+from investment.crawl.financial_data import (get_stock_fianacial_data_all_year, get_hist_data,
+                                             get_accountant_table_data)
 from investment.crawl.trade import (get_china_stock_today, get_hongkong_stock_today,
                                     get_china_index_fund, get_china_etfn_fund,
                                     get_market_index, get_market_index_from_jiucaishuo)
