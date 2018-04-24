@@ -113,15 +113,15 @@ def get_accountant_table_data(stockId, type, retry_count=3, pause=0.02):
     :param type:string 'zcfzb','lrb','xjllb'
     :param retry_count:int
     :param pause:float
-    :return:
+    :return:string 数据保存路径
     """
     url = ct.ACCOUNTANT_TABLE_URL%(ct.P_TYPE['http'], ct.DOMAINS['money_163'], type, stockId)
     for _ in range(retry_count):
         time.sleep(pause)
-        #try:
-        response = requests.get(url)
-        with open(st.LOCAL_DATA_ACCOUNTANT%(type, type, stockId), 'wb') as csv:
+        try:
+            response = requests.get(url)
+            with open(st.LOCAL_DATA_ACCOUNTANT%(type, type, stockId), 'wb') as csv:
                 csv.write(response.content)
-        return
-        #except Exception as e:
-            #print(u'从网易财经获取股票%s会计报表失败'%stockId)
+            return st.LOCAL_DATA_ACCOUNTANT%(type, type, stockId)
+        except Exception as e:
+            print(u'从网易财经获取股票%s会计报表失败'%stockId)
