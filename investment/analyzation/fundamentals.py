@@ -253,7 +253,7 @@ class BalanceSheet:
 
     def analyze_currency_by_year(self):
         """
-
+        按照年度分析货币资金、流动资产、净资产、负债合计的历史趋势
         :return:
         """
         by_year = [(ct.Q4 % year) for year in range(self.start, self.end + 1)]
@@ -273,6 +273,69 @@ class BalanceSheet:
 
         plt.savefig(st.PIC_STOCK%(self.stockId, ct.FINANCIAL_TABLE['currency']), dpi=200)
         return st.PIC_STOCK%(self.stockId, ct.FINANCIAL_TABLE['currency'])
+
+    def _get_liability_with_interest(self):
+        """
+        计算有息负债，暂且计算如下：
+        有息负债≈负债合计-应付账款-预收账款-应付职工薪酬-应交税费-长期递延收益-递延所得税负债
+        :return:
+        """
+        by_year = [(ct.Q4 % year) for year in range(self.start, self.end + 1)]
+        columns = [59, 60, 63, 64, 89, 90, 93]
+        df = self.df[columns]
+        df = df[df.index.isin(by_year)]
+        for i in columns:
+            df[i] = df[i].map(lambda x:0 if x=='--' else float(x))
+        df[u'有息负债'] = df[93]-df[59]-df[60]-df[63]-df[64]-df[89]-df[90]
+        return df[u'有息负债']
+
+    def _get_productive_assets(self):
+        """
+        计算生产资产，暂且计算如下：
+        生产资产 = 固定资产+在建工程+工程物资+无形资产(土地)
+        :return:
+        """
+        by_year = [(ct.Q4 % year) for year in range(self.start, self.end + 1)]
+        columns = [36, 37, 38, 43]
+        df = self.df[columns]
+        df = df[df.index.isin(by_year)]
+        for i in columns:
+            df[i] = df[i].map(lambda x: 0 if x == '--' else float(x))
+        df[u'生产资产'] = df[36] + df[37] + df[38] + df[43]
+        return df[u'生产资产']
+
+
+    def quick_analyze(self):
+        """
+        计算:
+        'A':u'有息负债/总资产',
+        'B':u'生产资产/总资产',
+        'C':u'当前税前利润总额/生产资产'
+        :return:
+        """
+        by_year = [(ct.Q4 % year) for year in range(self.start, self.end + 1)]
+        columns = [107]
+        df = self.df[columns]
+        df = df[df.index.isin(by_year)]
+        for i in columns:
+            df[i] = df[i].map(lambda x: 0 if x == '--' else float(x))
+        df[ct.PROFITSTATEMENT['A']] = self._get_liability_with_interest()/df[107]*100
+        df[ct.PROFITSTATEMENT['A']] = df[ct.PROFITSTATEMENT['A']].map(lambda x: '%.2f'%x)
+
+        df[ct.PROFITSTATEMENT['B']] = self._get_productive_assets()/df[107]*100
+        df[ct.PROFITSTATEMENT['B']] = df[ct.PROFITSTATEMENT['B']].map(lambda x: '%.2f'%x)
+
+        df[ct.PROFITSTATEMENT['C']] = ProfitStatement(self.stockId)._get_profit_before_tax() / \
+                                        self._get_productive_assets() * 100
+        df[ct.PROFITSTATEMENT['C']] = df[ct.PROFITSTATEMENT['C']].map(lambda x: '%.2f'%x)
+        '''
+        figure, (ax1) = plt.subplots(1,1)
+        ax1.plot(df[u'有息负债/总资产'], alpha=0.8)
+        ax1.set_xticklabels(df.index.map(lambda x: x[0:4]))
+        plt.title(u'%s有息负债/总资产(百分比)'%self.stockId)
+        plt.show()
+        '''
+        return df[[ct.PROFITSTATEMENT['A'], ct.PROFITSTATEMENT['B'], ct.PROFITSTATEMENT['C']]]
 
 class CashFlowStatement:
     """
@@ -322,3 +385,32 @@ class CashFlowStatement:
         ax3.set_xticklabels(df.index.map(lambda x : x[0:4]))
         plt.savefig(st.PIC_STOCK%(self.stockId, ct.FINANCIAL_TABLE['cashflow']), dpi=200)
         return st.PIC_STOCK%(self.stockId, ct.FINANCIAL_TABLE['cashflow'])
+
+class ProfitStatement:
+    """
+    利润表
+    """
+    def __init__(self, stockId, start=2008, end=2018):
+        """
+
+        :param stock:
+        :param start:
+        :param end:
+        """
+        self.stockId = stockId
+        self.start = start
+        self.end = end
+        self.df = investment.load_stock_accountant_sheet(stockId, 'lrb', '%d-01-01'%start, '%d-12-31'%end)
+
+    def _get_profit_before_tax(self):
+        """
+        税前利润总额
+        :return:
+        """
+        by_year = [(ct.Q4 % year) for year in range(self.start, self.end + 1)]
+        columns = [36]
+        df = self.df[columns]
+        df = df[df.index.isin(by_year)]
+        for i in columns:
+            df[i] = df[i].map(lambda x: 0 if x == '--' else float(x))
+        return df[36]

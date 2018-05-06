@@ -28,7 +28,7 @@ from investment.analyzation.financial import (_get_stock_hist_eps, analyze_stock
                                               load_stock_accountant_sheet)
 from investment.analyzation.fundamentals import (GrowthTable, ProfitabilityTable,
                                                  ManagementTable, BalanceSheet,
-                                                 CashFlowStatement)
+                                                 CashFlowStatement, ProfitStatement)
 
 """
 数据可视化模块
