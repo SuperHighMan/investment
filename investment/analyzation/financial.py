@@ -264,3 +264,27 @@ def load_stock_financial(stockId, start='2008-01-01', end=None):
         return df
     else:
         return None
+
+def load_stock_accountant_sheet(stockId, type, start='2008-01-01', end=None):
+    """
+    加载资产负债表、利润表、现金流量表
+    :param stockId:
+    :param type:
+    :param start:
+    :param end:
+    :return:
+    """
+    data_path = st.LOCAL_DATA_ACCOUNTANT%(type, type, stockId)
+    if os.path.exists(data_path):
+        df = pd.read_csv(data_path, encoding='gbk')
+        #print(df)
+        #df.drop([u'报告日期'], axis=1, inplace=True)
+        df = df.dropna(axis=1, how='any')
+        df = df.T.sort_index(axis=0, ascending=True)
+        if start is not None:
+            df = df[df.index >= start]
+        if end is not None:
+            df = df[df.index <= end]
+        return df
+    else:
+        return None

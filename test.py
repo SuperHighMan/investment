@@ -19,6 +19,7 @@ if __name__ == '__main__':
     #r=investment._get_stock_hist_eps('600900','2018-04-28')
     #r = investment.get_hist_data('600900')
     stockId = sys.argv[1]
+    type = sys.argv[2]
     #df = investment.analyze_stock_ttm(stockId,ktype='W', start='2008-01-01')
     #print(df)
     #df = investment.load_pe_ttm_from_excel(stockId, start='2008-01-01',end=None)
@@ -37,16 +38,27 @@ if __name__ == '__main__':
     #股票财务指标分析
     #df = investment.load_stock_financial(stockId)
     #print(df)
-    #财务成长能力表
+    #财务成长能力
     #grow = investment.GrowthTable(stockId, start=2009)
     #pic = grow.analyze_by_year()
     #print(pic)
 
-    #财务盈利能力表
+    #财务盈利能力
     profit = investment.ProfitabilityTable(stockId, start=2008)
-    pic = profit.analyze_by_quater()
-    print(pic)
-    #营运能力报表
+    #pic = profit.analyze_by_quater()
+    print(profit.analyze_profit_rate_by_year())
+    #print(pic)
+    #营运能力报
     #manage = investment.ManagementTable(stockId)
     #pic = manage.analyze_by_year()
     #print(pic)
+    #资产负债表
+    #path = investment.get_accountant_table_data(stockId, type)
+    #print(path)
+    #balance = investment.BalanceSheet(stockId)
+    #path = balance.analyze_currency_by_year()
+    #print(path)
+    # 现就流量表
+    #cash = investment.CashFlowStatement(stockId)
+    #path = cash.analyze_cashflow_by_year()
+    #print(path)

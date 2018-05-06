@@ -41,7 +41,8 @@ DAY_EFT_FUND_COLUMNS = ['基金代码', '基金简称', '单位净值', '累计�
 JIUCAI_CONS = ['gu_pe', 'gu_pb']
 
 FINANCIAL_TABLE = {'growth':'table-growth', 'profit':'table-profitability',
-                   'manage':'table-management'}
+                   'manage':'table-management', 'currency':'currency',
+                   'cashflow':'cashflow', 'profit-tang':'profit-main'}
 
 FINICIAL_URL = '%s%s/corp/go.php/vFD_FinancialGuideLine/stockid/%s/ctrl/%s/displaytype/4.phtml'
 DAY_PRICE_URL = '%sapi.finance.%s/%s/?code=%s&type=last'
