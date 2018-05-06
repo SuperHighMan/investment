@@ -42,7 +42,8 @@ JIUCAI_CONS = ['gu_pe', 'gu_pb']
 
 FINANCIAL_TABLE = {'growth':'table-growth', 'profit':'table-profitability',
                    'manage':'table-management', 'currency':'currency',
-                   'cashflow':'cashflow', 'profit-tang':'profit-main'}
+                   'cashflow':'cashflow', 'profit-tang':'profit-main',
+                   'growth-tang':'table-growth-compare'}
 
 FINICIAL_URL = '%s%s/corp/go.php/vFD_FinancialGuideLine/stockid/%s/ctrl/%s/displaytype/4.phtml'
 DAY_PRICE_URL = '%sapi.finance.%s/%s/?code=%s&type=last'

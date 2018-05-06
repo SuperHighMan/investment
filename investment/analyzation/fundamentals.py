@@ -73,6 +73,34 @@ class GrowthTable:
         return st.PIC_STOCK % (self.stockId, ct.FINANCIAL_TABLE['growth'])
         #plt.show()
 
+    def compare_by_year(self):
+        """
+        按照年度分析股票的成长能力：
+        重点关注：营业收入增长率与营业利润增长率的关系
+        净资产增长率与总资产增长率的关系
+        :return:
+        """
+        by_year = [(ct.Q4 % year) for year in range(self.start, self.end + 1)]
+        columns = [34, 35, 36, 37]
+        titles = {34: u'主营业务收入增长率（%）',
+                  35: u'净利润增长率（%）',
+                  36: u'净资产增长率（%）',
+                  37: u'总资产增长率（%）'}
+        df = self.df[columns]
+        df = df[df.index.isin(by_year)]
+        for i in columns:
+            df[i] = df[i].map(lambda x:0 if x=='--' else float(x))
+        figure, (ax1,ax2) = plt.subplots(2, 1)
+        ax1.plot(df[[columns[0], columns[1]]], alpha=0.8)
+        ax1.legend([titles[columns[0]], titles[columns[1]]])
+        ax1.set_xticklabels(df.index.map(lambda x: x[0:4]))
+        ax2.plot(df[[columns[2], columns[3]]], alpha=0.8)
+        ax2.legend([titles[columns[2]], titles[columns[3]]])
+        ax2.set_xticklabels(df.index.map(lambda x: x[0:4]))
+        self.__mark_pic(plt, ct.AUTHOR)
+        plt.savefig(st.PIC_STOCK % (self.stockId, ct.FINANCIAL_TABLE['growth-tang']), dpi=200)
+        return st.PIC_STOCK % (self.stockId, ct.FINANCIAL_TABLE['growth-tang'])
+
 class ProfitabilityTable:
     """
     盈利能力报表
