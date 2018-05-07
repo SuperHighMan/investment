@@ -44,10 +44,10 @@ def get_all_market_index():
     investment.save_market_index_his(sheet['StandarIndexCode'])
 
 if __name__ == '__main__':
-    #get_all_pb()
+    get_all_pb()
     #df = investment.analyze_stock_ttm('600016')
     #print(df)
-    list=['601318']
-    investment.save_stock_pe_ttm(list)
-    investment.save_stock_pb(list)
-    print(u'十年全市场滚动市盈率计算完毕')
+    #list=['601318']
+    #investment.save_stock_pe_ttm(list)
+    #investment.save_stock_pb(list)
+    print(u'十年全市场滚动市净率计算完毕')

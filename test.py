@@ -7,9 +7,38 @@
 
 import investment
 import sys
+import investment.util.cons as ct
 import pandas as pd
 
 STOCK_LIST = '/home/chenhui/investment/data/my_stock/stock_china.xlsx'
+
+def analyze_stock(stockId):
+    ct._save_data(stockId, investment.get_stock_fianacial_data_all_year(stockId, pd.DataFrame))
+    print(investment.get_accountant_table_data(stockId, 'zcfzb'))
+    print(investment.get_accountant_table_data(stockId, 'lrb'))
+    print(investment.get_accountant_table_data(stockId, 'xjllb'))
+    #财务成长能力
+    grow = investment.GrowthTable(stockId, start=2008)
+    print(grow.compare_by_year())
+    print(grow.analyze_by_year())
+    #财务盈利能力 bug
+    profit = investment.ProfitabilityTable(stockId, start=2008)
+    print(profit.analyze_by_quater())
+    print(profit.analyze_profit_rate_by_year())
+    # 营运能力报 bug
+    manage = investment.ManagementTable(stockId)
+    print(manage.analyze_by_year())
+    #资产负债表
+    balance = investment.BalanceSheet(stockId)
+    print(balance.analyze_currency_by_year())
+    print(balance.quick_analyze())
+    # 现就流量表
+    cash = investment.CashFlowStatement(stockId)
+    print(cash.analyze_cashflow_by_year())
+    # 利润表
+    #profit = investment.ProfitStatement(stockId)
+    #print(profit..)
+    print(u'%s分析完毕'%stockId)
 
 if __name__ == '__main__':
     #sheet = pd.read_excel(STOCK_LIST, converters= {u'代码':str})
@@ -19,7 +48,7 @@ if __name__ == '__main__':
     #r=investment._get_stock_hist_eps('600900','2018-04-28')
     #r = investment.get_hist_data('600900')
     stockId = sys.argv[1]
-    type = sys.argv[2]
+    #type = sys.argv[2]
     #df = investment.analyze_stock_ttm(stockId,ktype='W', start='2008-01-01')
     #print(df)
     #df = investment.load_pe_ttm_from_excel(stockId, start='2008-01-01',end=None)
@@ -38,27 +67,14 @@ if __name__ == '__main__':
     #股票财务指标分析
     #df = investment.load_stock_financial(stockId)
     #print(df)
-    #财务成长能力
-    #grow = investment.GrowthTable(stockId, start=2009)
-    #pic = grow.analyze_by_year()
-    #print(pic)
+    #analyze_stock(stockId)
 
-    #财务盈利能力
+    # 财务盈利能力
     profit = investment.ProfitabilityTable(stockId, start=2008)
-    #pic = profit.analyze_by_quater()
+    #print(profit.analyze_by_quater())
     print(profit.analyze_profit_rate_by_year())
-    #print(pic)
-    #营运能力报
-    #manage = investment.ManagementTable(stockId)
-    #pic = manage.analyze_by_year()
-    #print(pic)
-    #资产负债表
-    #path = investment.get_accountant_table_data(stockId, type)
-    #print(path)
-    #balance = investment.BalanceSheet(stockId)
-    #path = balance.analyze_currency_by_year()
-    #print(path)
-    # 现就流量表
-    #cash = investment.CashFlowStatement(stockId)
-    #path = cash.analyze_cashflow_by_year()
-    #print(path)
+
+
+
+
+

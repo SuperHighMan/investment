@@ -148,7 +148,7 @@ class ProfitabilityTable:
         plt.suptitle(u'%s盈利能力分析'%self.stockId, fontsize='xx-large', color='gray', alpha=0.4)
         for i in columns:
             ax = figure.add_subplot(2,2,columns.index(i)+1)
-            ax.bar(df.index, df[i], width=0.4, alpha=0.8)
+            ax.plot(df[i], alpha=0.8)
             ax.set_xticklabels(df.index, rotation=90, fontsize='xx-small')
             plt.title(titles[i], fontsize='small')
         self.__mark_pic(plt, ct.AUTHOR)
@@ -228,7 +228,7 @@ class ManagementTable:
         plt.suptitle(u'%s营运能力分析'%self.stockId, fontsize='xx-large', color='gray', alpha=0.4)
         for i in columns:
             ax = figure.add_subplot(2,2,columns.index(i)+1)
-            ax.bar(df.index, df[i], alpha=0.8)
+            ax.plot(df[i], alpha=0.8)
             ax.set_xticklabels(df.index, rotation=90, fontsize='xx-small')
             plt.title(titles[i], fontsize='small')
         self.__mark_pic(plt, ct.AUTHOR)
