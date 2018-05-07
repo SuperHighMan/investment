@@ -10,7 +10,7 @@ import investment
 import investment.util.cons as ct
 import investment.util.storage as st
 import matplotlib.pyplot as plt
-import datetime
+from functools import reduce
 plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 
@@ -304,30 +304,55 @@ class BalanceSheet:
         df[u'生产资产'] = df[36] + df[37] + df[38] + df[43]
         return df[u'生产资产']
 
-
-    def quick_analyze(self):
+    def _get_receivable(self):
         """
-        计算:
-        'A':u'有息负债/总资产',
-        'B':u'生产资产/总资产',
-        'C':u'当前税前利润总额/生产资产'
+        计算含有应收的科目
+        应收=
+        应收票据+应收账款+应收保费+应收分保账款+应收分保合同准备金+应收利息+
+        应收股利+其他应收款+应收出口退税+应收补贴款+应收保证金+内部应收款
         :return:
         """
         by_year = [(ct.Q4 % year) for year in range(self.start, self.end + 1)]
-        columns = [107]
+        columns = [5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+        df = self.df[columns]
+        df = df[df.index.isin(by_year)]
+        for i in columns:
+            df[i] = df[i].map(lambda x: 0 if x == '--' else float(x))
+
+        df[u'应收'] = df[5]+df[6]+df[8]+df[9]+df[10]+df[11]\
+                    +df[12]+df[13]+df[14]+df[15]+df[16]+df[17]
+        return df[u'应收']
+
+    def quick_analyze(self):
+        """
+        资产负债表快速分析
+        0:货币资金
+        107:总资产
+        :return:DataFrame
+                'A':u'有息负债/总资产',
+                'B':u'生产资产/总资产',
+                'C':u'当前税前利润总额/生产资产',
+                'D':u'应收/总资产',
+                'E':u'货币资金/有息负债',
+                'F':u'非主业资产/总资产'
+        """
+        by_year = [(ct.Q4 % year) for year in range(self.start, self.end + 1)]
+        columns = [0, 107]
         df = self.df[columns]
         df = df[df.index.isin(by_year)]
         for i in columns:
             df[i] = df[i].map(lambda x: 0 if x == '--' else float(x))
         df[ct.PROFITSTATEMENT['A']] = self._get_liability_with_interest()/df[107]*100
-        df[ct.PROFITSTATEMENT['A']] = df[ct.PROFITSTATEMENT['A']].map(lambda x: '%.2f'%x)
-
         df[ct.PROFITSTATEMENT['B']] = self._get_productive_assets()/df[107]*100
-        df[ct.PROFITSTATEMENT['B']] = df[ct.PROFITSTATEMENT['B']].map(lambda x: '%.2f'%x)
-
         df[ct.PROFITSTATEMENT['C']] = ProfitStatement(self.stockId)._get_profit_before_tax() / \
                                         self._get_productive_assets() * 100
-        df[ct.PROFITSTATEMENT['C']] = df[ct.PROFITSTATEMENT['C']].map(lambda x: '%.2f'%x)
+        df[ct.PROFITSTATEMENT['D']] = self._get_receivable()/df[107] * 100
+        df[ct.PROFITSTATEMENT['E']] = df[0] / df[107] * 100
+
+        result = [ct.PROFITSTATEMENT['A'], ct.PROFITSTATEMENT['B'],
+                   ct.PROFITSTATEMENT['C'], ct.PROFITSTATEMENT['D'],
+                   ct.PROFITSTATEMENT['E']]
+        for i in result: df[i] = df[i].map(lambda x:'%.2f'%x)
         '''
         figure, (ax1) = plt.subplots(1,1)
         ax1.plot(df[u'有息负债/总资产'], alpha=0.8)
@@ -335,7 +360,7 @@ class BalanceSheet:
         plt.title(u'%s有息负债/总资产(百分比)'%self.stockId)
         plt.show()
         '''
-        return df[[ct.PROFITSTATEMENT['A'], ct.PROFITSTATEMENT['B'], ct.PROFITSTATEMENT['C']]]
+        return df[result]
 
 class CashFlowStatement:
     """

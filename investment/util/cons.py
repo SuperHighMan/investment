@@ -38,7 +38,9 @@ DAY_TRADE_HONGKONG_COLUMNS = ["symbol","name","engname","tradetype","lasttrade",
 DAY_EFT_FUND_COLUMNS = ['基金代码', '基金简称', '单位净值', '累计净值', '昨日单位净值', '昨日累计净值',
                        '增长值', '增长率', '市价', '折价率']
 
-PROFITSTATEMENT = {'A':u'有息负债/总资产', 'B':u'生产资产/总资产', 'C':u'当前税前利润总额/生产资产'}
+PROFITSTATEMENT = {'A':u'有息负债/总资产', 'B':u'生产资产/总资产',
+                   'C':u'当前税前利润总额/生产资产', 'D':u'应收/总资产',
+                   'E':u'货币资金/有息负债', 'F':u'非主业资产/总资产'}
 
 JIUCAI_CONS = ['gu_pe', 'gu_pb']
 
