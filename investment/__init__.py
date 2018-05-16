@@ -29,6 +29,7 @@ from investment.analyzation.financial import (_get_stock_hist_eps, analyze_stock
 from investment.analyzation.fundamentals import (GrowthTable, ProfitabilityTable,
                                                  ManagementTable, BalanceSheet,
                                                  CashFlowStatement, ProfitStatement)
+from investment.analyzation.prioritizing import (choose_stock_from_china, find_quick_grow_stock)
 
 """
 数据可视化模块

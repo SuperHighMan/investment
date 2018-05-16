@@ -5,7 +5,7 @@
 # @Date  : 2018/4/21
 # @Desc  :
 
-
+import pandas as pd
 import investment
 import investment.util.cons as ct
 import investment.util.storage as st
@@ -353,6 +353,8 @@ class BalanceSheet:
                    ct.PROFITSTATEMENT['C'], ct.PROFITSTATEMENT['D'],
                    ct.PROFITSTATEMENT['E']]
         for i in result: df[i] = df[i].map(lambda x:'%.2f'%x)
+
+        df[result] = df[result].apply(pd.to_numeric)
         '''
         figure, (ax1) = plt.subplots(1,1)
         ax1.plot(df[u'有息负债/总资产'], alpha=0.8)
@@ -439,3 +441,20 @@ class ProfitStatement:
         for i in columns:
             df[i] = df[i].map(lambda x: 0 if x == '--' else float(x))
         return df[36]
+
+    def quick_analyze(self):
+        """
+        利润表快速分析
+        :return:DataFrame
+        """
+        new_df = pd.DataFrame()
+        columns = [1, 8, 32, 39]
+        df = self.df[columns]
+        df = df.apply(pd.to_numeric)
+        #for i in columns:
+        #    df[i] = df[i].map(lambda x: 0 if x == '--' else float(x))
+        new_df[u'毛利率'] = (df[1] - df[8]) / df[1] * 100
+        new_df[u'净利率'] = df[39] / df[1] * 100
+        new_df[u'营业收入增长率'] = [((df[1][i] - df[1][i-4]) / df[1][i-4] * 100) for i in range(len(df[1]))]
+        new_df[u'营业利润增长率'] = [((df[32][i] - df[32][i-4]) / df[32][i-4] * 100) for i in range(len(df[32]))]
+        return new_df

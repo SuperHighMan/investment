@@ -10,7 +10,7 @@ import sys
 import investment.util.cons as ct
 import pandas as pd
 
-STOCK_LIST = '/home/chenhui/investment/data/my_stock/stock_china.xlsx'
+STOCK_LIST = '/home/chenhui/investment/data/my_stock/all_china_stock.xlsx'
 
 def analyze_stock(stockId):
     ct._save_data(stockId, investment.get_stock_fianacial_data_all_year(stockId, pd.DataFrame))
@@ -40,6 +40,20 @@ def analyze_stock(stockId):
     #print(profit..)
     print(u'%s分析完毕'%stockId)
 
+def choose_latest_years():
+    sheet = pd.read_excel(STOCK_LIST, converters={'code': str})
+    for index in sheet['code']:
+        investment.choose_stock_from_china(index, start=2015)
+
+
+def find_stock():
+    sheet = pd.read_excel(STOCK_LIST, converters={'code': str})
+    for index in sheet['code']:
+        result = investment.find_quick_grow_stock(index)
+        if result:
+            print(u'成长股:%s' % index)
+    print(u'简单寻找完毕')
+
 if __name__ == '__main__':
     #sheet = pd.read_excel(STOCK_LIST, converters= {u'代码':str})
     #for index in sheet[u'代码']: save_data(index)
@@ -47,7 +61,7 @@ if __name__ == '__main__':
 
     #r=investment._get_stock_hist_eps('600900','2018-04-28')
     #r = investment.get_hist_data('600900')
-    stockId = sys.argv[1]
+    #stockId = sys.argv[1]
     #type = sys.argv[2]
     #df = investment.analyze_stock_ttm(stockId,ktype='W', start='2008-01-01')
     #print(df)
@@ -69,10 +83,16 @@ if __name__ == '__main__':
     #print(df)
     #analyze_stock(stockId)
 
-    # 财务盈利能力
-    profit = investment.ProfitabilityTable(stockId, start=2008)
-    #print(profit.analyze_by_quater())
-    print(profit.analyze_profit_rate_by_year())
+    #选股
+    #choose_latest_years()
+    #for index in ['601318', '600900', '000001']:
+    #    investment.choose_stock_from_china(index)
+    find_stock()
+    #利润表测试
+    #lrb = investment.ProfitStatement(stockId)
+    #lrb.quick_analyze()
+
+
 
 
 
