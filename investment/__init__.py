@@ -29,17 +29,18 @@ from investment.analyzation.financial import (_get_stock_hist_eps, analyze_stock
 from investment.analyzation.fundamentals import (GrowthTable, ProfitabilityTable,
                                                  ManagementTable, BalanceSheet,
                                                  CashFlowStatement, ProfitStatement)
-from investment.analyzation.prioritizing import (choose_stock_from_china, find_quick_grow_stock)
+from investment.analyzation.prioritizing import (choose_stock_from_china, find_quick_grow_stock,
+                                                 find_stock_by_mean)
 
 """
 数据可视化模块
 """
 from investment.analyzation.visualization import (draw_stock_pe_ttm, draw_market_index_pe,
                                                   draw_market_index_pb, draw_stock_pb,
-                                                  draw_stock_pe_pb)
+                                                  draw_stock_pe_pb, multiple_index_compare)
 
 """
-数据持久化模块
+数据持久化模块j
 """
 from investment.persistence.stock import (save_stock_pe_ttm, save_today_china_stock,
                                           save_today_hongkong_stock, save_stock_pb,

@@ -159,15 +159,15 @@ def draw_market_index_pe(code, start='1990-01-01', end='2018-04-19'):
         ax.xaxis.set_major_locator(mdates.YearLocator())
         ax.yaxis.set_major_locator(MultipleLocator(5.0))
         # 显示次刻度标签的位置,没有标签文本
-        ax.xaxis.set_minor_locator(mdates.MonthLocator())
-        ax.yaxis.set_minor_locator(MultipleLocator(1.0))
+        #ax.xaxis.set_minor_locator(mdates.MonthLocator())
+        #ax.yaxis.set_minor_locator(MultipleLocator(1.0))
         # 设置网格
-        ax.xaxis.grid(True, which='minor', color='gray', linestyle='dashed')
+        #ax.xaxis.grid(True, which='minor', color='gray', linestyle='dashed')
         ax.yaxis.grid(True, which='major', color='red', linestyle='solid')
-        ax.yaxis.grid(True, which='minor', color='gray', linestyle='dashed')
+        #ax.yaxis.grid(True, which='minor', color='gray', linestyle='dashed')
         #设置x标签
         ax.set_xlabel('')
-        plt.title(u'%s TTM'%code)
+        plt.title(u'%s'%code)
         plt.savefig(st.PIC_INDEX_PE%(code, ct.JIUCAI_CONS[0]), dpi=200)
         #plt.show()
     else:
@@ -195,15 +195,36 @@ def draw_market_index_pb(code, start='1990-01-01', end='2018-04-19'):
         ax.xaxis.set_major_locator(mdates.YearLocator())
         ax.yaxis.set_major_locator(MultipleLocator(0.5))
         # 显示次刻度标签的位置,没有标签文本
-        ax.xaxis.set_minor_locator(mdates.MonthLocator())
-        ax.yaxis.set_minor_locator(MultipleLocator(0.1))
+        #ax.xaxis.set_minor_locator(mdates.MonthLocator())
+        #ax.yaxis.set_minor_locator(MultipleLocator(0.1))
         # 设置网格
-        ax.xaxis.grid(True, which='minor', color='gray', linestyle='dashed')
+        #ax.xaxis.grid(True, which='minor', color='gray', linestyle='dashed')
         ax.yaxis.grid(True, which='major', color='yellow', linestyle='solid')
-        ax.yaxis.grid(True, which='minor', color='gray', linestyle='dashed')
+        #ax.yaxis.grid(True, which='minor', color='gray', linestyle='dashed')
         ax.set_xlabel('')
-        plt.title(u'%s TTM'%code)
+        plt.title(u'%s'%code)
         plt.savefig(st.PIC_INDEX_PB%(code, ct.JIUCAI_CONS[1]), dpi=200)
         #plt.show()
     else:
         print(u'对不起,没有指数:%s的滚动市净率数据'%code)
+
+def multiple_index_compare(codeList, dict, start='2013-01-01', end='2018-06-01'):
+    """
+    绘制多只指数的历史数据比较
+    :param codeList:
+    :param start:
+    :param end:
+    :return:
+    """
+    data = pd.DataFrame()
+    for code in codeList:
+        path = st.LOCAL_DATA_JIUCAI_PE%(code, ct.JIUCAI_CONS[0])
+        df = pd.read_excel(path)
+        df = df[df['gu_date'] >= start]
+        df = df[df['gu_date'] <= end]
+        df['gu_date'] = pd.to_datetime(df['gu_date'])
+        df.index = df['gu_date']
+
+        data[dict[code]] = df[u'gu_pe']
+    data.plot()
+    plt.show()
